@@ -18,8 +18,8 @@ $ npm install eslint eslint-plugin-react-prefer-function-component --save-dev
 
 ```js
 module.exports = {
-  extends: ["react-prefer-function-component"]
   plugins: ["react-prefer-function-component"],
+  extends: ["plugin:react-prefer-function-component/recommended"],
 };
 ```
 
