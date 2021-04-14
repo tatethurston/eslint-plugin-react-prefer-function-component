@@ -4,7 +4,7 @@
 
 ## What is this? 🧐
 
-An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components. By default, class components that use componentDidCatch are enabled, because there is currently no hook alternative for React. This options is configurable via `allowComponentDidCatch`.
+An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components. By default, class components that use `componentDidCatch` are enabled because there is currently no hook alternative for React. This option is configurable via `allowComponentDidCatch`.
 
 ## Installation & Usage 📦
 
