@@ -2,12 +2,13 @@ import PreferFunctionComponent from "./prefer-function-component";
 
 export default {
   configs: {
-    plugins: ["prefer-function-component"],
+    plugins: ["react-prefer-function-component"],
     recommended: {
-      "prefer-function-component/prefer-function-component": "error",
+      "react-prefer-function-component/react-prefer-function-component":
+        "error",
     },
   },
   rules: {
-    "prefer-function-component": PreferFunctionComponent,
+    "react-prefer-function-component": PreferFunctionComponent,
   },
 };
