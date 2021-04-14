@@ -31,11 +31,9 @@
     "postversion": "git push && git push --tags"
   },
   "types": "dist/index.d.ts",
-  "dependencies": {
-    "@types/estree": "^0.0.47"
-  },
   "devDependencies": {
     "@types/eslint": "^7.2.9",
+    "@types/estree": "^0.0.47",
     "@types/jest": "^26.0.15",
     "@types/node": "^13.13.5",
     "@typescript-eslint/eslint-plugin": "^4.1.0",
