@@ -14,20 +14,27 @@ This rule is intended to complement the [eslint-plugin-react](https://github.com
 $ npm install eslint eslint-plugin-react-prefer-function-component --save-dev
 ```
 
-`.eslintrc` configuration
+`.eslintrc` configuration:
 
+```js
+module.exports = {
+  extends: ["prefer-function-component"]
+  plugins: ["prefer-function-component"],
+};
 ```
-{
-  "parserOptions": {
-    "ecmaFeatures": {
-      "jsx": true
-    }
+
+Or customize:
+
+```js
+module.exports = {
+  plugins: ["prefer-function-component"],
+  rules: {
+    "prefer-function-component/prefer-function-component": [
+      "error",
+      { allowComponentDidCatch: false },
+    ],
   },
-  "plugins": ["prefer-function-component"]
-  "rules": {
-    "prefer-function-component/prefer-function-component": "error"
-  },
-}
+};
 ```
 
 ## Rule Details
@@ -64,7 +71,7 @@ const Foo = ({ foo }) => <div>{foo}</div>;
 
 ```js
 ...
-"react-prefer-function-component": [<enabled>, { "allowComponentDidCatch": <allowComponentDidCatch> }]
+"prefer-function-component": [<enabled>, { "allowComponentDidCatch": <allowComponentDidCatch> }]
 ...
 ```
 

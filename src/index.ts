@@ -1,5 +1,13 @@
 import PreferFunctionComponent from "./prefer-function-component";
 
 export default {
-  "prefer-function-component": PreferFunctionComponent,
+  configs: {
+    plugins: ["prefer-function-component"],
+    recommended: {
+      "prefer-function-component/prefer-function-component": "error",
+    },
+  },
+  rules: {
+    "prefer-function-component": PreferFunctionComponent,
+  },
 };
