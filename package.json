@@ -11,7 +11,7 @@
   "bugs": {
     "url": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/issues"
   },
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "dist/index.js",
   "files": [
     "dist/prefer-function-component/index.js"
