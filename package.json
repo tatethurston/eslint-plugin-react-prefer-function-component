@@ -53,6 +53,7 @@
     "eslintplugin",
     "function component",
     "functional component",
+    "no class",
     "react"
   ],
   "husky": {

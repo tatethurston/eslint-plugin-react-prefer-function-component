@@ -57,7 +57,7 @@ const rule: Rule.RuleModule = {
       recommended: false,
       suggestion: false,
       url:
-        "https://github.com/tatethurston/eslint-plugin-react/tree/master/docs/rules/prefer-function-component",
+        "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#rule-details",
     },
     type: "problem",
     messages: {
