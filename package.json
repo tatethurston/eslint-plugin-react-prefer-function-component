@@ -5,7 +5,7 @@
   "author": "Tate <tatethurston@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/tatethurston/ts-state-machines"
+    "url": "git+https://github.com/tatethurston/eslint-plugin-react-prefer-function-component.git"
   },
   "version": "0.0.1",
   "main": "dist/index.js",
@@ -57,5 +57,9 @@
     "hooks": {
       "pre-commit": "yarn lint:fix"
     }
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/issues"
+  },
+  "homepage": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#readme"
 }
