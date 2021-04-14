@@ -1,6 +1,6 @@
 import PreferFunctionComponent from "./prefer-function-component";
 
-export default {
+module.exports = {
   configs: {
     plugins: ["react-prefer-function-component"],
     recommended: {
