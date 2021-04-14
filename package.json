@@ -3,14 +3,18 @@
   "description": "ESLint lint rule to enforce function components in React",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
+  "homepage": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tatethurston/eslint-plugin-react-prefer-function-component.git"
   },
+  "bugs": {
+    "url": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/issues"
+  },
   "version": "0.0.1",
   "main": "dist/index.js",
   "files": [
-    "dist/index.d.ts"
+    "dist/prefer-function-component/index.js"
   ],
   "scripts": {
     "build": "yarn clean && yarn tsc",
@@ -57,9 +61,5 @@
     "hooks": {
       "pre-commit": "yarn lint:fix"
     }
-  },
-  "bugs": {
-    "url": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/issues"
-  },
-  "homepage": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#readme"
+  }
 }

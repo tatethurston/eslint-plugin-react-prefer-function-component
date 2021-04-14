@@ -14,7 +14,7 @@ const ruleTester = new RuleTester({
   },
 });
 
-ruleTester.run("prefer-stateless-function", rule, {
+ruleTester.run("prefer-function-component", rule, {
   valid: [
     {
       // Already a stateless function
@@ -71,7 +71,22 @@ ruleTester.run("prefer-stateless-function", rule, {
 
   invalid: [
     {
-      // Extends from Component and uses componentDidCatch
+      code: `
+        import { Component } from 'react';
+
+        class Foo extends Component {
+          render() {
+            return <div>{this.props.foo}</div>;
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
+    {
       code: `
         class Foo extends React.Component {
           render() {
@@ -86,7 +101,6 @@ ruleTester.run("prefer-stateless-function", rule, {
       ],
     },
     {
-      // Extends from Component and uses componentDidCatch
       code: `
         class Foo extends React.PureComponent {
           render() {
@@ -101,7 +115,6 @@ ruleTester.run("prefer-stateless-function", rule, {
       ],
     },
     {
-      // Extends from Component in an expression context.
       code: `
         const Foo = class extends React.Component {
           render() {
