@@ -4,9 +4,34 @@
 
 ## What is this? 🧐
 
-An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components. By default, class components that use `componentDidCatch` are enabled because there is currently no hook alternative for React. This option is configurable via `allowComponentDidCatch`.
+An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components.
+
+## Motivation
+
+Since the addition of hooks, it has been possible to write stateful React components
+using only functions.
+
+Leaving the choice between class or function components up to the community is great, but generally within a codebase I want consistency: either we're writing class components and HoCs or we're using function components and hooks. Straddling the two adds unnecessary hurdles for sharing reusable logic.
+
+By default, class components that use `componentDidCatch` are enabled because there is currently no hook alternative for React. This option is configurable via `allowComponentDidCatch`.
 
 This rule is intended to complement the [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) rule set.
+
+## FAQ
+
+> What about `ErrorBoundary` class components? Does this lint rule support those?
+
+Yes it does. [Error Boundaries](https://reactjs.org/docs/error-boundaries.html) are implemented by defining `componentDidCatch`. Because there is currently no hook equivalent, class components that implement `componentDidCatch` are allowed by default.
+
+This option is configurable.
+
+> What about [eslint-plugin-react/prefer-stateless-function](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md)?
+
+`eslint-plugin-react/prefer-stateless-function` allows class components that implement any class methods or properties.
+
+> Why didn't you contribute this rule to [https://github.com/yannickcr/eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)?
+
+I'm actually discussing this in an [open issue](https://github.com/yannickcr/eslint-plugin-react/issues/2860#issuecomment-819784530) on `eslint-plugin-react`!
 
 ## Installation & Usage 📦
 
@@ -38,8 +63,6 @@ module.exports = {
 ```
 
 ## Rule Details
-
-function components are simpler than class based components and will benefit from future React performance optimizations.
 
 This rule will flag any React class components that don't use `componentDidCatch`.
 
@@ -80,9 +103,27 @@ const Foo = ({ foo }) => <div>{foo}</div>;
 
 ### `allowComponentDidCatch`
 
-When `true` the rule will ignore components that use `componentDidCatch`
+When `true` (the default) the rule will ignore components that use `componentDidCatch`
 
 Examples of **correct** code for this rule:
+
+```jsx
+import { Component } from "react";
+
+class Foo extends Component {
+  componentDidCatch(error, errorInfo) {
+    logErrorToMyService(error, errorInfo);
+  }
+
+  render() {
+    return <div>{this.props.foo}</div>;
+  }
+}
+```
+
+When `false` the rule will also flag components that use `componentDidCatch`
+
+Examples of **incorrect** code for this rule:
 
 ```jsx
 import { Component } from "react";
