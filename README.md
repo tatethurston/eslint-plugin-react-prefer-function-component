@@ -27,7 +27,7 @@ This option is configurable.
 
 > What about [eslint-plugin-react/prefer-stateless-function](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md)?
 
-`eslint-plugin-react/prefer-stateless-function` allows class components that implement any class methods or properties.
+`eslint-plugin-react/prefer-stateless-function` allows class components that implement any class methods or properties. This rule is stricter and prevents the use of _any_ class components. See this [Stack Overflow question](https://stackoverflow.com/questions/63333796/how-to-use-react-with-function-component-and-hooks-only) for more context.
 
 > Why didn't you contribute this rule to [https://github.com/yannickcr/eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)?
 
