@@ -16,7 +16,9 @@
 <a href="https://www.npmjs.com/package/eslint-plugin-react-prefer-function-component">
   <img src="https://img.shields.io/npm/dy/eslint-plugin-react-prefer-function-component.svg">
 </a>
-<img src="https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/actions/workflows/ci.yml/badge.svg">
+<a href="https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/actions/workflows/ci.yml">
+  <img src="https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/actions/workflows/ci.yml/badge.svg">
+</a>
 
 ## What is this? 🧐
 
