@@ -2,6 +2,21 @@
 
 <blockquote>ESLint lint rule to enforce function components in React</blockquote>
 
+<br />
+
+<a href="https://www.npmjs.com/package/eslint-plugin-react-prefer-function-component">
+  <img src="https://img.shields.io/npm/v/eslint-plugin-react-prefer-function-component.svg">
+</a>
+<a href="https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/blob/master/LICENSE">
+  <img src="https://img.shields.io/npm/l/eslint-plugin-react-prefer-function-component.svg">
+</a>
+<a href="https://bundlephobia.com/result?p=eslint-plugin-react-prefer-function-component">
+  <img src="https://img.shields.io/bundlephobia/minzip/eslint-plugin-react-prefer-function-component">
+</a>
+<a href="https://www.npmjs.com/package/eslint-plugin-react-prefer-function-component">
+  <img src="https://img.shields.io/npm/dy/eslint-plugin-react-prefer-function-component.svg">
+</a>
+
 ## What is this? 🧐
 
 An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components.
@@ -61,6 +76,8 @@ module.exports = {
   },
 };
 ```
+
+For more configuration examples, take a look at the [examples directory](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/tree/main/examples).
 
 ## Rule Details
 

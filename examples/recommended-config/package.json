@@ -1,0 +1,17 @@
+{
+  "version": "1.0.0",
+  "description": "",
+  "name": "test",
+  "scripts": {
+    "lint": "eslint *.jsx"
+  },
+  "author": "Tate Thurston <tatethurston@gmail.com>",
+  "license": "ISC",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^7.24.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-prefer-function-component": "*"
+  }
+}
