@@ -20,10 +20,11 @@
     "build": "yarn clean && yarn tsc",
     "build:watch": "yarn build --watch",
     "clean": "rm -rf dist/*",
-    "lint:fix": "yarn lint:fix:md && yarn lint:fix:package && yarn lint:fix:ts && prettier --write ./src && yarn typecheck",
-    "lint:fix:md": "prettier --write *.md",
-    "lint:fix:package": "prettier-package-json --write ./package.json",
-    "lint:fix:ts": "eslint --fix './src/**/*.ts'",
+    "lint": "yarn typecheck && prettier --check . && prettier-package-json --list-different package.json && eslint .",
+    "lint:fix": "prettier --write . && prettier-package-json package-json && eslint --fix .",
+    "lint:fix:md": "prettier --write '*.md'",
+    "lint:fix:package": "prettier-package-json --write .",
+    "lint:fix:ts": "eslint --fix './src/**/*.ts{,x}'",
     "test": "yarn build && jest --testTimeout 5000 --rootDir dist",
     "typecheck": "yarn tsc --noEmit",
     "typecheck:watch": "yarn typecheck --watch",
@@ -62,7 +63,7 @@
   ],
   "husky": {
     "hooks": {
-      "pre-commit": "yarn lint:fix"
+      "pre-commit": "yarn lint"
     }
   }
 }
