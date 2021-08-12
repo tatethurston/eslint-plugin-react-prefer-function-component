@@ -49,7 +49,7 @@ This option is configurable.
 
 > Why didn't you contribute this rule to [https://github.com/yannickcr/eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)?
 
-I'm actually discussing this in an [open issue](https://github.com/yannickcr/eslint-plugin-react/issues/2860#issuecomment-819784530) on `eslint-plugin-react`!
+I'm discussing this in an [open issue](https://github.com/yannickcr/eslint-plugin-react/issues/2860#issuecomment-819784530) and [pull request](https://github.com/yannickcr/eslint-plugin-react/pull/3040) on `eslint-plugin-react`. At this time, the maintainer is unconvinced that function component enforcement should be a lint rule.
 
 ## Installation & Usage 📦
 
