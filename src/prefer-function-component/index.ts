@@ -34,6 +34,7 @@ function getComponentProperties(node: Node): Node[] {
 }
 
 function getPropertyNameNode(node: Node): Node | undefined {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   if (node.key || ["MethodDefinition", "Property"].indexOf(node.type) !== -1) {
     return node.key;
   }
@@ -56,8 +57,7 @@ const rule: Rule.RuleModule = {
       category: "Stylistic Issues",
       recommended: false,
       suggestion: false,
-      url:
-        "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#rule-details",
+      url: "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#rule-details",
     },
     type: "problem",
     messages: {
@@ -89,6 +89,7 @@ const rule: Rule.RuleModule = {
       }
 
       return new RegExp(`^(${pragma}\\.)?${createClass}$`).test(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         sourceCode.getText(node.parent.callee)
       );
     }
@@ -99,6 +100,7 @@ const rule: Rule.RuleModule = {
       }
 
       return new RegExp(`^(${pragma}\\.)?(Pure)?Component$`).test(
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
         sourceCode.getText(node.superClass)
       );
     }
