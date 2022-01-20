@@ -1,4 +1,4 @@
-# ESLint-plugin-React-prefer-function-component
+# eslint-plugin-react-prefer-function-component
 
 <blockquote>ESLint lint rule to enforce function components in React</blockquote>
 
@@ -18,6 +18,9 @@
 </a>
 <a href="https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/actions/workflows/ci.yml">
   <img src="https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/actions/workflows/ci.yml/badge.svg">
+</a>
+<a href="https://codecov.io/gh/tatethurston/eslint-plugin-react-prefer-function-component">
+  <img src="https://img.shields.io/codecov/c/github/tatethurston/eslint-plugin-react-prefer-function-component/main.svg?style=flat-square">
 </a>
 
 ## What is this? 🧐
