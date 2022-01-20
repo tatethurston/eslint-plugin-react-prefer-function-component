@@ -12,11 +12,6 @@ const ruleTester = new RuleTester({
       jsx: true,
     },
   },
-  settings: {
-    react: {
-      version: "latest",
-    },
-  },
 });
 
 ruleTester.run("prefer-function-component", rule, {

@@ -2,23 +2,51 @@
  * @fileoverview Enforce components are written as function components
  */
 
-// TODO: improve typing
-/* eslint-disable @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-call */
-
 import type { Rule } from "eslint";
-// Using eslint-plugin-react internals for upstream consideration
-// https://github.com/yannickcr/eslint-plugin-react/issues/2860#issuecomment-819784530
-import Components from "eslint-plugin-react/lib/util/Components";
-import {
-  getComponentProperties,
-  getPropertyName,
-} from "eslint-plugin-react/lib/util/ast";
 
+// TODO:
+// .eslintrc shared settings (http://eslint.org/docs/user-guide/configuring#adding-shared-settings)
+// https://github.com/yannickcr/eslint-plugin-react/blob/master/lib/util/pragma.js
+const pragma = "React";
+const createClass = "createReactClass";
 export const COMPONENT_SHOULD_BE_FUNCTION = "componentShouldBeFunction";
 export const ALLOW_COMPONENT_DID_CATCH = "allowComponentDidCatch";
 const COMPONENT_DID_CATCH = "componentDidCatch";
 // https://eslint.org/docs/developer-guide/working-with-rules
 const PROGRAM_EXIT = "Program:exit";
+
+// TODO: Type definitions
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Node = any;
+
+/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
+
+function getComponentProperties(node: Node): Node[] {
+  switch (node.type) {
+    case "ClassDeclaration":
+    case "ClassExpression":
+      return node.body.body;
+    case "ObjectExpression":
+      return node.properties;
+    default:
+      return [];
+  }
+}
+
+function getPropertyNameNode(node: Node): Node | undefined {
+  if (node.key || ["MethodDefinition", "Property"].indexOf(node.type) !== -1) {
+    return node.key;
+  }
+  if (node.type === "MemberExpression") {
+    return node.property;
+  }
+  return undefined;
+}
+
+function getPropertyName(node: Node): string {
+  const nameNode = getPropertyNameNode(node);
+  return nameNode ? nameNode.name : "";
+}
 
 // https://eslint.org/docs/developer-guide/working-with-rules
 const rule: Rule.RuleModule = {
@@ -50,11 +78,32 @@ const rule: Rule.RuleModule = {
     ],
   },
 
-  create: Components.detect((context: any, components: any, utils: any) => {
+  create(context: Rule.RuleContext) {
     const allowComponentDidCatch =
       context.options[0]?.allowComponentDidCatch ?? true;
+    const sourceCode = context.getSourceCode();
 
-    function shouldPreferFunction(node: any): boolean {
+    function isES5Component(node: Node): boolean {
+      if (!node.parent) {
+        return false;
+      }
+
+      return new RegExp(`^(${pragma}\\.)?${createClass}$`).test(
+        sourceCode.getText(node.parent.callee)
+      );
+    }
+
+    function isES6Component(node: Node): boolean {
+      if (!node.superClass) {
+        return false;
+      }
+
+      return new RegExp(`^(${pragma}\\.)?(Pure)?Component$`).test(
+        sourceCode.getText(node.superClass)
+      );
+    }
+
+    function shouldPreferFunction(node: Node): boolean {
       if (!allowComponentDidCatch) {
         return true;
       }
@@ -63,32 +112,29 @@ const rule: Rule.RuleModule = {
       return !properties.includes(COMPONENT_DID_CATCH);
     }
 
-    const detect = (guard: (node: any) => boolean) => (node: any) => {
+    const components = new Set<Node>();
+
+    const detect = (guard: (node: Node) => boolean) => (node: Node) => {
       if (guard(node) && shouldPreferFunction(node)) {
-        components.set(node, {
-          [COMPONENT_SHOULD_BE_FUNCTION]: true,
-        });
+        components.add(node);
       }
     };
 
     return {
-      ObjectExpression: detect(utils.isES5Component),
-      ClassDeclaration: detect(utils.isES6Component),
-      ClassExpression: detect(utils.isES6Component),
+      ObjectExpression: detect(isES5Component),
+      ClassDeclaration: detect(isES6Component),
+      ClassExpression: detect(isES6Component),
 
       [PROGRAM_EXIT]() {
-        const list = components.list();
-        Object.values(list).forEach((component: any) => {
-          if (component[COMPONENT_SHOULD_BE_FUNCTION]) {
-            context.report({
-              node: component.node,
-              messageId: COMPONENT_SHOULD_BE_FUNCTION,
-            });
-          }
+        components.forEach((node) => {
+          context.report({
+            node,
+            messageId: COMPONENT_SHOULD_BE_FUNCTION,
+          });
         });
       },
     };
-  }),
+  },
 };
 
 export default rule;

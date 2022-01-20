@@ -32,9 +32,6 @@
     "postversion": "git push && git push --tags"
   },
   "types": "dist/index.d.ts",
-  "peerDependencies": {
-    "eslint-plugin-react": "^7.23.2"
-  },
   "devDependencies": {
     "@types/eslint": "^7.2.9",
     "@types/estree": "^0.0.47",
