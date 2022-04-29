@@ -4,11 +4,6 @@
 
 import type { Rule } from "eslint";
 
-// TODO:
-// .eslintrc shared settings (http://eslint.org/docs/user-guide/configuring#adding-shared-settings)
-// https://github.com/yannickcr/eslint-plugin-react/blob/master/lib/util/pragma.js
-const pragma = "React";
-const createClass = "createReactClass";
 export const COMPONENT_SHOULD_BE_FUNCTION = "componentShouldBeFunction";
 export const ALLOW_COMPONENT_DID_CATCH = "allowComponentDidCatch";
 const COMPONENT_DID_CATCH = "componentDidCatch";
@@ -20,34 +15,6 @@ const PROGRAM_EXIT = "Program:exit";
 type Node = any;
 
 /* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
-
-function getComponentProperties(node: Node): Node[] {
-  switch (node.type) {
-    case "ClassDeclaration":
-    case "ClassExpression":
-      return node.body.body;
-    case "ObjectExpression":
-      return node.properties;
-    default:
-      return [];
-  }
-}
-
-function getPropertyNameNode(node: Node): Node | undefined {
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  if (node.key || ["MethodDefinition", "Property"].indexOf(node.type) !== -1) {
-    return node.key;
-  }
-  if (node.type === "MemberExpression") {
-    return node.property;
-  }
-  return undefined;
-}
-
-function getPropertyName(node: Node): string {
-  const nameNode = getPropertyNameNode(node);
-  return nameNode ? nameNode.name : "";
-}
 
 // https://eslint.org/docs/developer-guide/working-with-rules
 const rule: Rule.RuleModule = {
@@ -81,51 +48,34 @@ const rule: Rule.RuleModule = {
   create(context: Rule.RuleContext) {
     const allowComponentDidCatch =
       context.options[0]?.allowComponentDidCatch ?? true;
-    const sourceCode = context.getSourceCode();
-
-    function isES5Component(node: Node): boolean {
-      if (!node.parent) {
-        return false;
-      }
-
-      return new RegExp(`^(${pragma}\\.)?${createClass}$`).test(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        sourceCode.getText(node.parent.callee)
-      );
-    }
-
-    function isES6Component(node: Node): boolean {
-      if (!node.superClass) {
-        return false;
-      }
-
-      return new RegExp(`^(${pragma}\\.)?(Pure)?Component$`).test(
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-        sourceCode.getText(node.superClass)
-      );
-    }
 
     function shouldPreferFunction(node: Node): boolean {
-      if (!allowComponentDidCatch) {
-        return true;
-      }
+      const properties = node.body.body;
+      const hasComponentDidCatch =
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
+        properties.find(
+          (property: Node) => property.key?.name === COMPONENT_DID_CATCH
+        ) !== undefined;
 
-      const properties = getComponentProperties(node).map(getPropertyName);
-      return !properties.includes(COMPONENT_DID_CATCH);
+      if (hasComponentDidCatch && allowComponentDidCatch) {
+        return false;
+      }
+      return true;
     }
 
     const components = new Set<Node>();
 
-    const detect = (guard: (node: Node) => boolean) => (node: Node) => {
-      if (guard(node) && shouldPreferFunction(node)) {
+    function detect(node: Node): void {
+      if (shouldPreferFunction(node)) {
         components.add(node);
       }
-    };
+    }
 
     return {
-      ObjectExpression: detect(isES5Component),
-      ClassDeclaration: detect(isES6Component),
-      ClassExpression: detect(isES6Component),
+      "ClassDeclaration:has(JSXElement)": detect,
+      "ClassDeclaration:has(JSXFragment)": detect,
+      "ClassExpression:has(JSXElement)": detect,
+      "ClassExpression:has(JSXFragment)": detect,
 
       [PROGRAM_EXIT]() {
         components.forEach((node) => {

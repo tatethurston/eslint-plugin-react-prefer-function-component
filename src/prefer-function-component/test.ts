@@ -67,14 +67,84 @@ ruleTester.run("prefer-function-component", rule, {
         };
       `,
     },
+    {
+      // class without JSX
+      code: `
+        class Foo {
+          render() {
+            return 'hello'
+          }
+        };
+      `,
+    },
+    {
+      // object with JSX
+      code: `
+        const foo = {
+          foo: <h>hello</h>
+        };
+      `,
+    },
   ],
 
   invalid: [
+    // Extending from react
     {
       code: `
         import { Component } from 'react';
 
         class Foo extends Component {
+          render() {
+            return <div>{this.props.foo}</div>;
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
+    // Extending from preact
+    {
+      code: `
+        import { Component } from 'preact';
+
+        class Foo extends Component {
+          render() {
+            return <div>{this.props.foo}</div>;
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
+    // Extending from inferno
+    {
+      code: `
+        import { Component } from 'inferno';
+
+        class Foo extends Component {
+          render() {
+            return <div>{this.props.foo}</div>;
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
+    // Extending from another class (not Component)
+    {
+      code: `
+        import Document from 'next/document';
+
+        class Foo extends Document {
           render() {
             return <div>{this.props.foo}</div>;
           }
