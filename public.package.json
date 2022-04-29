@@ -1,0 +1,25 @@
+{
+  "name": "eslint-plugin-react-prefer-function-component",
+  "version": "2.0.0-rc1",
+  "description": "ESLint plugin that prevents the use of JSX class components",
+  "license": "MIT",
+  "author": "Tate <tatethurston@gmail.com>",
+  "homepage": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tatethurston/eslint-plugin-react-prefer-function-component.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/issues"
+  },
+  "main": "index.js",
+  "types": "index.d.ts",
+  "keywords": [
+    "eslint react no class",
+    "eslint react class",
+    "lint react no class",
+    "lint react class",
+    "lint jsx no class",
+    "lint jsx class"
+  ]
+}

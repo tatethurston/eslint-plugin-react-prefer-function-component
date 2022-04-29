@@ -1,6 +1,6 @@
 # eslint-plugin-react-prefer-function-component
 
-<blockquote>ESLint lint rule to enforce function components in React</blockquote>
+<blockquote>An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components.</blockquote>
 
 <br />
 
@@ -25,7 +25,7 @@
 
 ## What is this? 🧐
 
-An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components.
+An [ESLint](https://github.com/eslint/eslint) plugin that prevents the use of React class components. While this plugin specifically calls out React, it will work with Preact, Inferno, or other JSX libraries.
 
 ## Motivation
 
@@ -48,11 +48,11 @@ This option is configurable.
 
 > What about [eslint-plugin-react/prefer-stateless-function](https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md)?
 
-`eslint-plugin-react/prefer-stateless-function` allows class components that implement any class methods or properties. This rule is stricter and prevents the use of _any_ class components. See this [Stack Overflow question](https://stackoverflow.com/questions/63333796/how-to-use-react-with-function-component-and-hooks-only) for more context.
+`eslint-plugin-react/prefer-stateless-function` allows class components that implement any methods or properties other than `render`. This rule is stricter and prevents the use of _any_ class components. This [open issue](https://github.com/jsx-eslint/eslint-plugin-react/issues/2860) explains the limitations of `prefer-stateless-function` and the motivations for this plugin.
 
 > Why didn't you contribute this rule to [https://github.com/yannickcr/eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react)?
 
-I'm discussing this in an [open issue](https://github.com/yannickcr/eslint-plugin-react/issues/2860#issuecomment-819784530) and [pull request](https://github.com/yannickcr/eslint-plugin-react/pull/3040) on `eslint-plugin-react`. At this time, the maintainer is unconvinced that function component enforcement should be a lint rule.
+I'm discussing this in an [open issue](https://github.com/yannickcr/eslint-plugin-react/issues/2860#issuecomment-819784530) and [pull request](https://github.com/yannickcr/eslint-plugin-react/pull/3040) on `eslint-plugin-react`. At this time, the maintainer of `eslint-plugin-react` is unconvinced that function component enforcement should be a lint rule. If you would like to see this rule added to `eslint-plugin-react`, please join the discussion on the issue or pull request.
 
 ## Installation & Usage 📦
 
