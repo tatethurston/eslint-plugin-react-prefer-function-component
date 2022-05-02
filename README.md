@@ -104,9 +104,9 @@ class Foo extends Component {
 Examples of **correct** code for this rule:
 
 ```jsx
-const Foo = function (props) {
+function Foo(props) {
   return <div>{props.foo}</div>;
-};
+}
 ```
 
 ```jsx
