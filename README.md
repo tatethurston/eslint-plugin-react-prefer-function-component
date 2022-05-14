@@ -1,6 +1,6 @@
 # eslint-plugin-react-prefer-function-component
 
-<blockquote>An <a href="https://github.com/eslint/eslint">ESLint</href> plugin that prevents the use of React class components.</blockquote>
+<blockquote>An <a href="https://github.com/eslint/eslint">ESLint</a> plugin that prevents the use of React class components.</blockquote>
 
 <br />
 
