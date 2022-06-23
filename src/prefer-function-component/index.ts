@@ -9,7 +9,6 @@ export const ALLOW_COMPONENT_DID_CATCH = "allowComponentDidCatch";
 const COMPONENT_DID_CATCH = "componentDidCatch";
 // https://eslint.org/docs/developer-guide/working-with-rules
 const PROGRAM_EXIT = "Program:exit";
-const VARIABLE_DECLARATOR = "VariableDeclarator";
 
 // TODO: Type definitions
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
