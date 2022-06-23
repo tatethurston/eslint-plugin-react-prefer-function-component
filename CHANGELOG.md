@@ -20,6 +20,8 @@ class TimerComponent extends React.Component {
     null;
   }
 }
+```
+Thanks @wo1ph for the improvements!
 
 ## v2.0.0
 
