@@ -1,5 +1,27 @@
 # Changelog
 
+## v3.0.0
+
+Detects `class` components that extend the `Component` class, even if they do not use any JSX. Now errors on manager, business logic, and other renderless `class` components that extend `Component`. Previously the below was not caught:
+
+```jsx
+class TimerComponent extends React.Component {
+  /// ...
+
+  componentWillMount() {
+    this.startTimer();
+  }
+
+  componentWillUnmount() {
+    this.stopTimer();
+  }
+
+  render() {
+    null;
+  }
+}
+```
+
 ## v2.0.0
 
 Support for `createClass` has been dropped. Usage of `createClass` will no longer be detected.
