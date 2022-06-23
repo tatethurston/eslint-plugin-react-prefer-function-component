@@ -267,5 +267,70 @@ ruleTester.run("prefer-function-component", rule, {
         },
       ],
     },
+    {
+      // Does not contain JSX and extends React.Component.
+      code: `
+        class Foo extends React.Component {
+          render() {
+            return null;
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
+
+    {
+      // Does not contain JSX and extends Component.
+      code: `
+        import { Component } from 'react';
+
+        class Foo extends Component {
+          render() {
+            return null;
+          }
+        }
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
+    {
+      // Does not contain JSX and extends React.Component in an expression context.
+      code: `
+        const Foo = class extends React.Component {
+          render() {
+            return null;
+          }
+        };
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
+    {
+      // Does not contain JSX and extends Component in an expression context.
+      code: `
+        import { Component } from 'react';
+
+        const Foo = class extends Component {
+          render() {
+            return null;
+          }
+        };
+      `,
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    },
   ],
 });
