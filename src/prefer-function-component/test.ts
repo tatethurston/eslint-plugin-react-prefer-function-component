@@ -1,6 +1,7 @@
 import { RuleTester } from "eslint";
 import rule, {
   ALLOW_COMPONENT_DID_CATCH,
+  ALLOW_JSX_IN_CLASSES,
   COMPONENT_SHOULD_BE_FUNCTION,
 } from ".";
 
@@ -76,6 +77,21 @@ ruleTester.run("prefer-function-component", rule, {
           }
         };
       `,
+    },
+    {
+      // non-component class with JSX
+      code: `
+        class Foo {
+          getBar() {
+            return <Bar />;
+          }
+        };
+      `,
+      options: [
+        {
+          [ALLOW_JSX_IN_CLASSES]: true,
+        },
+      ],
     },
     {
       // object with JSX
