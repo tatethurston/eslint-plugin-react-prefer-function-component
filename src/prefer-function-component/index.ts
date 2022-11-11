@@ -6,8 +6,7 @@ import type { Rule } from "eslint";
 
 export const COMPONENT_SHOULD_BE_FUNCTION = "componentShouldBeFunction";
 export const ALLOW_COMPONENT_DID_CATCH = "allowComponentDidCatch";
-export const ALLOW_JSX_IN_CLASSES = "allowJsxInClasses";
-const COMPONENT_DID_CATCH = "componentDidCatch";
+export const ALLOW_JSX_UTILITY_CLASS = "allowJsxUtilityClass";
 // https://eslint.org/docs/developer-guide/working-with-rules
 const PROGRAM_EXIT = "Program:exit";
 const VARIABLE_DECLARATOR = "VariableDeclarator";
@@ -41,7 +40,7 @@ const rule: Rule.RuleModule = {
             default: true,
             type: "boolean",
           },
-          [ALLOW_JSX_IN_CLASSES]: {
+          [ALLOW_JSX_UTILITY_CLASS]: {
             default: false,
             type: "boolean",
           },
@@ -54,15 +53,15 @@ const rule: Rule.RuleModule = {
   create(context: Rule.RuleContext) {
     const allowComponentDidCatch =
       context.options[0]?.allowComponentDidCatch ?? true;
-    // const allowJsxInClasses =
-    //   context.options[0]?.allowComponentDidCatch ?? false;
+    const allowJsxUtilityClass =
+      context.options[0]?.allowJsxUtilityClass ?? false;
 
     function shouldPreferFunction(node: Node): boolean {
       const properties = node.body.body;
       const hasComponentDidCatch =
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         properties.find(
-          (property: Node) => property.key?.name === COMPONENT_DID_CATCH
+          (property: Node) => property.key?.name === "componentDidCatch"
         ) !== undefined;
 
       if (hasComponentDidCatch && allowComponentDidCatch) {
@@ -79,23 +78,37 @@ const rule: Rule.RuleModule = {
       }
     }
 
-    // function detectJsxInClass(node: Node): void {
-    //   if (!allowJsxInClasses) {
-    //     detect(node);
-    //   }
-    // }
+    function detectJsxInClass(node: Node): void {
+      if (!allowJsxUtilityClass) {
+        detect(node);
+      }
+    }
 
     return {
-      "ClassDeclaration:has(JSXElement)": detect,
-      "ClassDeclaration:has(JSXFragment)": detect,
+      "ClassDeclaration:has(JSXElement)": detectJsxInClass,
+      "ClassDeclaration:has(JSXFragment)": detectJsxInClass,
+      "ClassExpression:has(JSXElement)": detectJsxInClass,
+      "ClassExpression:has(JSXFragment)": detectJsxInClass,
+      "ClassDeclaration:has(JSXElement):has(MethodDefinition[key.name='render'])":
+        detect,
+      "ClassDeclaration:has(JSXFragment):has(MethodDefinition[key.name='render'])":
+        detect,
+      "ClassExpression:has(JSXElement):has(MethodDefinition[key.name='render'])":
+        detect,
+      "ClassExpression:has(JSXFragment):has(MethodDefinition[key.name='render'])":
+        detect,
       "ClassDeclaration[superClass.object.name='React'][superClass.property.name='Component']":
         detect,
+      "ClassDeclaration[superClass.object.name='React'][superClass.property.name='PureComponent']":
+        detect,
       "ClassDeclaration[superClass.name='Component']": detect,
-      "ClassExpression:has(JSXElement)": detect,
-      "ClassExpression:has(JSXFragment)": detect,
+      "ClassDeclaration[superClass.name='PureComponent']": detect,
       "ClassExpression[superClass.object.name='React'][superClass.property.name='Component']":
         detect,
+      "ClassExpression[superClass.object.name='React'][superClass.property.name='PureComponent']":
+        detect,
       "ClassExpression[superClass.name='Component']": detect,
+      "ClassExpression[superClass.name='PureComponent']": detect,
       [PROGRAM_EXIT]() {
         components.forEach((node) => {
           // report on just the class identifier

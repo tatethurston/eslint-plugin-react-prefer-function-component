@@ -162,6 +162,36 @@ class Foo extends Component {
 }
 ```
 
+### `allowJsxUtilityClass`
+
+When `true` the rule will ignore JS classes that aren't class Components
+
+Examples of **correct** code for this rule:
+
+```jsx
+import { Bar } from "./Bar";
+
+class Foo {
+  getBar() {
+    return <Bar />;
+  }
+}
+```
+
+When `false` (the default) the rule will flag any class with JSX
+
+Examples of **incorrect** code for this rule:
+
+```jsx
+import { Bar } from "./Bar";
+
+class Foo {
+  getBar() {
+    return <Bar />;
+  }
+}
+```
+
 ## Contributing 👫
 
 PR's and issues welcomed! For more guidance check out [CONTRIBUTING.md](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/blob/master/CONTRIBUTING.md)
