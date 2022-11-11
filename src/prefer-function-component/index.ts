@@ -54,8 +54,8 @@ const rule: Rule.RuleModule = {
   create(context: Rule.RuleContext) {
     const allowComponentDidCatch =
       context.options[0]?.allowComponentDidCatch ?? true;
-    const allowJsxInClasses =
-      context.options[0]?.allowComponentDidCatch ?? false;
+    // const allowJsxInClasses =
+    //   context.options[0]?.allowComponentDidCatch ?? false;
 
     function shouldPreferFunction(node: Node): boolean {
       const properties = node.body.body;
@@ -79,20 +79,20 @@ const rule: Rule.RuleModule = {
       }
     }
 
-    function detectJsxInClass(node: Node): void {
-      if (!allowJsxInClasses) {
-        detect(node);
-      }
-    }
+    // function detectJsxInClass(node: Node): void {
+    //   if (!allowJsxInClasses) {
+    //     detect(node);
+    //   }
+    // }
 
     return {
-      "ClassDeclaration:has(JSXElement)": detectJsxInClass,
-      "ClassDeclaration:has(JSXFragment)": detectJsxInClass,
+      "ClassDeclaration:has(JSXElement)": detect,
+      "ClassDeclaration:has(JSXFragment)": detect,
       "ClassDeclaration[superClass.object.name='React'][superClass.property.name='Component']":
         detect,
       "ClassDeclaration[superClass.name='Component']": detect,
-      "ClassExpression:has(JSXElement)": detectJsxInClass,
-      "ClassExpression:has(JSXFragment)": detectJsxInClass,
+      "ClassExpression:has(JSXElement)": detect,
+      "ClassExpression:has(JSXFragment)": detect,
       "ClassExpression[superClass.object.name='React'][superClass.property.name='Component']":
         detect,
       "ClassExpression[superClass.name='Component']": detect,
