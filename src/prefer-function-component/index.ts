@@ -6,6 +6,7 @@ import type { Rule } from "eslint";
 
 export const COMPONENT_SHOULD_BE_FUNCTION = "componentShouldBeFunction";
 export const ALLOW_COMPONENT_DID_CATCH = "allowComponentDidCatch";
+export const ALLOW_JSX_IN_CLASSES = "allowJsxInClasses";
 const COMPONENT_DID_CATCH = "componentDidCatch";
 // https://eslint.org/docs/developer-guide/working-with-rules
 const PROGRAM_EXIT = "Program:exit";
@@ -40,6 +41,10 @@ const rule: Rule.RuleModule = {
             default: true,
             type: "boolean",
           },
+          [ALLOW_JSX_IN_CLASSES]: {
+            default: false,
+            type: "boolean",
+          },
         },
         additionalProperties: false,
       },
@@ -49,6 +54,8 @@ const rule: Rule.RuleModule = {
   create(context: Rule.RuleContext) {
     const allowComponentDidCatch =
       context.options[0]?.allowComponentDidCatch ?? true;
+    const allowJsxInClasses =
+      context.options[0]?.allowComponentDidCatch ?? false;
 
     function shouldPreferFunction(node: Node): boolean {
       const properties = node.body.body;
@@ -72,14 +79,20 @@ const rule: Rule.RuleModule = {
       }
     }
 
+    function detectJsxInClass(node: Node): void {
+      if (!allowJsxInClasses) {
+        detect(node);
+      }
+    }
+
     return {
-      "ClassDeclaration:has(JSXElement)": detect,
-      "ClassDeclaration:has(JSXFragment)": detect,
+      "ClassDeclaration:has(JSXElement)": detectJsxInClass,
+      "ClassDeclaration:has(JSXFragment)": detectJsxInClass,
       "ClassDeclaration[superClass.object.name='React'][superClass.property.name='Component']":
         detect,
       "ClassDeclaration[superClass.name='Component']": detect,
-      "ClassExpression:has(JSXElement)": detect,
-      "ClassExpression:has(JSXFragment)": detect,
+      "ClassExpression:has(JSXElement)": detectJsxInClass,
+      "ClassExpression:has(JSXFragment)": detectJsxInClass,
       "ClassExpression[superClass.object.name='React'][superClass.property.name='Component']":
         detect,
       "ClassExpression[superClass.name='Component']": detect,
