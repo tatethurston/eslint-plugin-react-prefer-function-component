@@ -1,7 +1,7 @@
 import { RuleTester } from "eslint";
 import rule, {
   ALLOW_COMPONENT_DID_CATCH,
-  ALLOW_JSX_IN_CLASSES,
+  ALLOW_JSX_UTILITY_CLASS,
   COMPONENT_SHOULD_BE_FUNCTION,
 } from ".";
 
@@ -176,38 +176,39 @@ const componentDidCatch = [
   `,
 ];
 
+const jsxUtilityClass = [
+  `\
+    class Foo {
+      getBar() {
+        return <Bar />;
+      }
+    };
+  `,
+];
+
 ruleTester.run("prefer-function-component", rule, {
   valid: [
     ...validForAllOptions.flatMap((code) => [
       { code },
-      { code, options: [{ [ALLOW_JSX_IN_CLASSES]: true }] },
-      { code, options: [{ [ALLOW_COMPONENT_DID_CATCH]: true }] },
+      { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
+      { code, options: [{ [ALLOW_COMPONENT_DID_CATCH]: false }] },
       {
         code,
         options: [
-          { [ALLOW_JSX_IN_CLASSES]: true, [ALLOW_COMPONENT_DID_CATCH]: true },
+          {
+            [ALLOW_JSX_UTILITY_CLASS]: true,
+            [ALLOW_COMPONENT_DID_CATCH]: false,
+          },
         ],
       },
     ]),
     ...componentDidCatch.flatMap((code) => [
       { code },
-      { code, options: [{ [ALLOW_JSX_IN_CLASSES]: true }] },
+      { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
     ]),
-    // {
-    //   // non-component class with JSX
-    //   code: `
-    //     class Foo {
-    //       getBar() {
-    //         return <Bar />;
-    //       }
-    //     };
-    //   `,
-    //   options: [
-    //     {
-    //       [ALLOW_JSX_IN_CLASSES]: true,
-    //     },
-    //   ],
-    // },
+    ...jsxUtilityClass.flatMap((code) => [
+      { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
+    ]),
   ],
 
   invalid: [
@@ -216,18 +217,21 @@ ruleTester.run("prefer-function-component", rule, {
       {
         code,
         errors: [{ messageId: COMPONENT_SHOULD_BE_FUNCTION }],
-        options: [{ [ALLOW_JSX_IN_CLASSES]: true }],
+        options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }],
       },
       {
         code,
         errors: [{ messageId: COMPONENT_SHOULD_BE_FUNCTION }],
-        options: [{ [ALLOW_COMPONENT_DID_CATCH]: true }],
+        options: [{ [ALLOW_COMPONENT_DID_CATCH]: false }],
       },
       {
         code,
         errors: [{ messageId: COMPONENT_SHOULD_BE_FUNCTION }],
         options: [
-          { [ALLOW_JSX_IN_CLASSES]: true, [ALLOW_COMPONENT_DID_CATCH]: true },
+          {
+            [ALLOW_JSX_UTILITY_CLASS]: true,
+            [ALLOW_COMPONENT_DID_CATCH]: false,
+          },
         ],
       },
     ]),
@@ -244,5 +248,13 @@ ruleTester.run("prefer-function-component", rule, {
         },
       ],
     })),
+    ...jsxUtilityClass.flatMap((code) => [
+      { code, errors: [{ messageId: COMPONENT_SHOULD_BE_FUNCTION }] },
+      {
+        code,
+        errors: [{ messageId: COMPONENT_SHOULD_BE_FUNCTION }],
+        options: [{ [ALLOW_COMPONENT_DID_CATCH]: false }],
+      },
+    ]),
   ],
 });

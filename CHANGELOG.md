@@ -1,5 +1,21 @@
 # Changelog
 
+## v3.1.0
+
+- New option: `allowJsxUtilityClass`. This configuration option permits JSX utility classes: classes that have methods that return JSX but are not themselves components(they do not extend from a Component class or have a render method).
+
+  The following is now permitted when enabling this configuration option:
+
+  ```jsx
+  class Foo {
+    getBar() {
+      return <Bar />;
+    }
+  }
+  ```
+
+  Thanks [noahm](https://github.com/noahm) for the contribution!
+
 ## v3.0.0
 
 Detects `class` components that extend the `Component` class, even if they do not use any JSX. Now errors on manager, business logic, and other renderless `class` components that extend `Component`. Previously the below was not caught:
