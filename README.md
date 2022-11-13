@@ -117,12 +117,13 @@ const Foo = ({ foo }) => <div>{foo}</div>;
 
 ```js
 ...
-"prefer-function-component": [<enabled>, { "allowComponentDidCatch": <allowComponentDidCatch> }]
+"prefer-function-component": [<enabled>, { "allowComponentDidCatch": <allowComponentDidCatch>, "allowJsxUtilityClass": <allowJsxUtilityClass> }]
 ...
 ```
 
 - `enabled`: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.
-- `allowComponentDidCatch`: optional boolean set to `true` if you would like to ignore class components using `componentDidCatch` (default to `true`).
+- `allowComponentDidCatch`: optional boolean. set to `false` if you want to also flag class components that use `componentDidCatch` (defaults to `true`).
+- `allowJsxUtilityClass`: optional boolean. set to `true` if you want to allow classes that contain JSX but aren't class components (defaults to `false`).
 
 ### `allowComponentDidCatch`
 
