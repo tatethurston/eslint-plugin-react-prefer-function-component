@@ -13,6 +13,12 @@
     "url": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/issues"
   },
   "main": "index.js",
+  "scripts": {
+    "build": "pnpm clean && pnpm tsc",
+    "clean": "rm -rf dist/*",
+    "package:build": "pnpm build && pnpm package:prune",
+    "package:prune": "find dist -name test.* -delete"
+  },
   "types": "index.d.ts",
   "keywords": [
     "eslint react no class",
@@ -21,5 +27,8 @@
     "lint react class",
     "lint jsx no class",
     "lint jsx class"
-  ]
+  ],
+  "devDependencies": {
+    "eslint": "^8.46.0"
+  }
 }

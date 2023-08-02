@@ -61,7 +61,7 @@ const rule: Rule.RuleModule = {
       const hasComponentDidCatch =
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call
         properties.find(
-          (property: Node) => property.key?.name === "componentDidCatch"
+          (property: Node) => property.key?.name === "componentDidCatch",
         ) !== undefined;
 
       if (hasComponentDidCatch && allowComponentDidCatch) {

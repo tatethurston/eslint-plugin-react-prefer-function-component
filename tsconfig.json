@@ -15,6 +15,5 @@
     "strict": true,
     "target": "ES2015",
     "declaration": true
-  },
-  "exclude": ["node_modules", "dist"]
+  }
 }
