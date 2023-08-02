@@ -1,6 +1,7 @@
+import type { ESLint } from "eslint";
 import PreferFunctionComponent from "./prefer-function-component";
 
-module.exports = {
+const plugin: ESLint.Plugin = {
   configs: {
     recommended: {
       plugins: ["react-prefer-function-component"],
@@ -14,3 +15,5 @@ module.exports = {
     "react-prefer-function-component": PreferFunctionComponent,
   },
 };
+
+module.exports = plugin;

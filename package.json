@@ -18,8 +18,8 @@
     "lint:fix:package": "prettier-package-json --write package.json",
     "prepare": "husky install",
     "test": "pnpm jest",
-    "test:ci": "pnpm test --coverage",
-    "typecheck": "pnpm tsc --noEmit"
+    "test:ci": "pnpm jest --coverage",
+    "typecheck": "pnpm run --recursive typecheck"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.22.9",
