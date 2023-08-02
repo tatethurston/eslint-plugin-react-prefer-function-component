@@ -7,6 +7,5 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["react-prefer-function-component"],
   extends: ["plugin:react-prefer-function-component/recommended"],
 };

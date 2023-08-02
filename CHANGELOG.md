@@ -1,5 +1,18 @@
 # Changelog
 
+## v3.2.0
+
+- The plugin's recommended configuration has been fixed, so `plugins` can be dropped from your `.eslintrc` when using the recommended settings:
+
+  ```diff
+  module.exports = {
+  -  plugins: ["react-prefer-function-component"],
+    extends: ["plugin:react-prefer-function-component/recommended"],
+  };
+
+  Thanks @alecmev!
+  ```
+
 ## v3.1.0
 
 - New option: `allowJsxUtilityClass`. This configuration option permits JSX utility classes: classes that have methods that return JSX but are not themselves components(they do not extend from a Component class or have a render method).

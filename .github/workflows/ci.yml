@@ -16,7 +16,7 @@ jobs:
           node-version-file: ".nvmrc"
           cache: "pnpm"
       - run: pnpm install --frozen-lockfile
-      - run: (cd packages/eslint-react-prefer-function-component && pnpm package:build)
+      - run: (cd packages/eslint-plugin-react-prefer-function-component && pnpm package:build)
       # run again to link bin that is now available after package:build
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
