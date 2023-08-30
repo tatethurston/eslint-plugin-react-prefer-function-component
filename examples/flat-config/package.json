@@ -1,9 +1,10 @@
 {
   "version": "1.0.0",
+  "type": "module",
   "description": "",
-  "name": "test",
+  "name": "flat-config",
   "scripts": {
-    "lint": "eslint *.jsx"
+    "lint": "eslint ."
   },
   "author": "Tate Thurston <tatethurston@gmail.com>",
   "license": "ISC",
