@@ -1,5 +1,5 @@
 import type { ESLint } from "eslint";
-import PreferFunctionComponent from "./prefer-function-component";
+import PreferFunctionComponent from "./prefer-function-component/index.js";
 
 const plugin: ESLint.Plugin = {
   configs: {

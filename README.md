@@ -56,9 +56,28 @@ I'm discussing this in an [open issue](https://github.com/yannickcr/eslint-plugi
 
 ## Installation & Usage 📦
 
+1. Install:
+
 ```
 $ npm install eslint eslint-plugin-react-prefer-function-component --save-dev
 ```
+
+2. Update your `eslint.config.js`:
+
+```js
+import eslint from "@eslint/js";
+import reactRecommended from "eslint-plugin-react/configs/recommended.js";
+import preferFC from "eslint-plugin-react-prefer-function-component/config";
+
+export default [
+  { files: ["**/*.{js,jsx}"] },
+  eslint.configs.recommended,
+  reactRecommended,
+  preferFC.configs.recommended,
+];
+```
+
+### ESLint Legacy Configuration
 
 `.eslintrc` configuration:
 

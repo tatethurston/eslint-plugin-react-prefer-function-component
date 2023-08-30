@@ -1,5 +1,24 @@
 # Changelog
 
+## v3.3.0
+
+Adds ESLint's [new configuration system](https://eslint.org/blog/2022/08/new-config-system-part-1/), `flat config`. If you're using the new flat config:
+
+    `eslint.config.js`:
+
+    ```js
+    import eslint from "@eslint/js";
+    import reactRecommended from "eslint-plugin-react/configs/recommended.js";
+    import preferFC from "eslint-plugin-react-prefer-function-component/config";
+
+    export default [
+      { files: ["**/*.{js,jsx}"] },
+      eslint.configs.recommended,
+      reactRecommended,
+      preferFC.configs.recommended,
+    ];
+    ```
+
 ## v3.2.0
 
 - The plugin's recommended configuration has been fixed, so `plugins` can be dropped from your `.eslintrc` when using the recommended settings:
@@ -9,9 +28,9 @@
   -  plugins: ["react-prefer-function-component"],
     extends: ["plugin:react-prefer-function-component/recommended"],
   };
+  ```
 
   Thanks @alecmev!
-  ```
 
 ## v3.1.0
 
