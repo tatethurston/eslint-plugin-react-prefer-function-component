@@ -7,7 +7,7 @@ const plugin: ESLint.Plugin = {
   },
 };
 
-const config: ESLint.Plugin = {
+const config = {
   configs: {
     recommended: {
       plugins: {
@@ -18,6 +18,6 @@ const config: ESLint.Plugin = {
       },
     },
   },
-};
+} satisfies ESLint.Plugin;
 
 export default config;
