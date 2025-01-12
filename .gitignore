@@ -1,3 +1,6 @@
 dist
 node_modules
 coverage
+packages/eslint-plugin-react-prefer-function-component/CHANGELOG.md
+packages/eslint-plugin-react-prefer-function-component/LICENSE
+packages/eslint-plugin-react-prefer-function-component/README.md

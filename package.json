@@ -12,10 +12,12 @@
     "url": "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/issues"
   },
   "scripts": {
+    "build": "(pnpm package:copy:files && cd packages/eslint-plugin-react-prefer-function-component && pnpm package:build)",
     "lint": "pnpm typecheck && prettier --check . && prettier-package-json --list-different package.json && eslint .",
     "lint:fix": "prettier --write . && prettier-package-json --write package.json && eslint --fix .",
     "lint:fix:md": "prettier --write '*.md'",
     "lint:fix:package": "prettier-package-json --write package.json",
+    "package:copy:files": "cp README.md LICENSE CHANGELOG.md packages/eslint-plugin-react-prefer-function-component",
     "prepare": "husky install",
     "test": "pnpm jest",
     "test:ci": "pnpm jest --coverage",

@@ -1,5 +1,9 @@
 # Changelog
 
+## v3.3.1
+
+- Improved TypeScript type for the configuration object. See [#17](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/pull/17). Thanks @PrettyCoffee!
+
 ## v3.3.0
 
 Adds ESLint's [new configuration system](https://eslint.org/blog/2022/08/new-config-system-part-1/), `flat config`. If you're using the new flat config:
