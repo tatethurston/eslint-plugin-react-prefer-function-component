@@ -1,6 +1,6 @@
 # Changelog
 
-## v3.3.1
+## v3.4.0
 
 - Improved TypeScript type for the configuration object. See [#17](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/pull/17). Thanks @PrettyCoffee!
 
