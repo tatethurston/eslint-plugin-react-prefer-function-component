@@ -9,5 +9,5 @@ jobs:
     steps:
       - uses: tatethurston/github-actions/publish@main
         with:
-          package_directory: eslint-plugin-react-prefer-function-component
+          package_directory: packages/eslint-plugin-react-prefer-function-component
           npm_token: ${{ secrets.NPM_TOKEN }}
