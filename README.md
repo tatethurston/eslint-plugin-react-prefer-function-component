@@ -135,7 +135,7 @@ const Foo = ({ foo }) => <div>{foo}</div>;
 
 ```js
 ...
-"prefer-function-component": [<enabled>, { "allowComponentDidCatch": <allowComponentDidCatch>, "allowJsxUtilityClass": <allowJsxUtilityClass> }]
+"react-prefer-function-component": [<enabled>, { "allowComponentDidCatch": <allowComponentDidCatch>, "allowJsxUtilityClass": <allowJsxUtilityClass> }]
 ...
 ```
 
