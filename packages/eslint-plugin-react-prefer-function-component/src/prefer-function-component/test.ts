@@ -6,11 +6,13 @@ import rule, {
 } from ".";
 
 const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 2018,
-    sourceType: "module",
-    ecmaFeatures: {
-      jsx: true,
+  languageOptions: {
+    parserOptions: {
+      ecmaVersion: 2018,
+      sourceType: "module",
+      ecmaFeatures: {
+        jsx: true,
+      },
     },
   },
 });
@@ -102,6 +104,13 @@ const invalidForAllOptions = [
       }
     };
   `,
+  `\
+    export default class extends React.Component {
+      render() {
+        return <div>{this.props.foo}</div>;
+      }
+    };
+  `,
   // Does not contain JSX and extends React.Component.
   `\
     class Foo extends React.Component {
@@ -133,6 +142,36 @@ const invalidForAllOptions = [
     import { Component } from 'react';
 
     const Foo = class extends Component {
+      render() {
+        return null;
+      }
+    };
+  `,
+  // Does not contain JSX and extends Component in an expression context.
+  `\
+    import { Component } from 'react';
+
+    const Foo = class Bar extends Component {
+      render() {
+        return null;
+      }
+    };
+  `,
+  // Does not contain JSX and extends Component in an default export expression context.
+  `\
+    import { Component } from 'react';
+
+    export default class extends Component {
+      render() {
+        return null;
+      }
+    };
+  `,
+  // Does not contain JSX and extends Component in an default export expression context.
+  `\
+    import { Component } from 'react';
+
+    export default class Foo extends Component {
       render() {
         return null;
       }
