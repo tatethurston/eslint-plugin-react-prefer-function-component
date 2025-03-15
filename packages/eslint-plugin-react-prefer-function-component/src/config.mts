@@ -3,7 +3,7 @@ import preferFunctionComponent from "./prefer-function-component/index.js";
 
 const plugin: ESLint.Plugin = {
   rules: {
-    "prefer-function-component": preferFunctionComponent.default,
+    "react-prefer-function-component": preferFunctionComponent.default,
   },
 };
 
@@ -11,10 +11,10 @@ const config = {
   configs: {
     recommended: {
       plugins: {
-        "prefer-function-component": plugin,
+        "react-prefer-function-component": plugin,
       },
       rules: {
-        "prefer-function-component/prefer-function-component": "error",
+        "react-prefer-function-component/prefer-function-component": "error",
       },
     },
   },
