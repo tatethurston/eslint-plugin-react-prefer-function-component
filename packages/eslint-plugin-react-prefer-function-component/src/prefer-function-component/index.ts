@@ -1,30 +1,27 @@
 /**
  * @fileoverview Enforce components are written as function components
  */
-
 import type { Rule } from "eslint";
+import type { TSESTree } from "@typescript-eslint/types";
 
 export const COMPONENT_SHOULD_BE_FUNCTION = "componentShouldBeFunction";
 export const ALLOW_COMPONENT_DID_CATCH = "allowComponentDidCatch";
 export const ALLOW_JSX_UTILITY_CLASS = "allowJsxUtilityClass";
-// https://eslint.org/docs/developer-guide/working-with-rules
-const PROGRAM_EXIT = "Program:exit";
-const VARIABLE_DECLARATOR = "VariableDeclarator";
 
-// TODO: Type definitions
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type Node = any;
+type ClassNode = TSESTree.ClassDeclaration | TSESTree.ClassExpression;
 
-/* eslint-disable @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return, @typescript-eslint/no-unsafe-assignment */
+type RuleOptions = {
+  allowComponentDidCatch?: boolean;
+  allowJsxUtilityClass?: boolean;
+};
 
 // https://eslint.org/docs/developer-guide/working-with-rules
-const rule: Rule.RuleModule = {
+const rule = {
   meta: {
     docs: {
       description: "Enforce components are written as function components",
       category: "Stylistic Issues",
       recommended: false,
-      suggestion: false,
       url: "https://github.com/tatethurston/eslint-plugin-react-prefer-function-component#rule-details",
     },
     type: "problem",
@@ -51,18 +48,17 @@ const rule: Rule.RuleModule = {
   },
 
   create(context: Rule.RuleContext) {
-    const allowComponentDidCatch =
-      context.options[0]?.allowComponentDidCatch ?? true;
-    const allowJsxUtilityClass =
-      context.options[0]?.allowJsxUtilityClass ?? false;
+    const options: RuleOptions = context.options[0] ?? {};
+    const allowComponentDidCatch = options.allowComponentDidCatch ?? true;
+    const allowJsxUtilityClass = options.allowJsxUtilityClass ?? false;
 
-    function shouldPreferFunction(node: Node): boolean {
+    function shouldPreferFunction(node: ClassNode): boolean {
       const properties = node.body.body;
-      const hasComponentDidCatch =
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call
-        properties.find(
-          (property: Node) => property.key?.name === "componentDidCatch",
-        ) !== undefined;
+      const hasComponentDidCatch = properties.some((property) => {
+        if ("key" in property && "name" in property.key) {
+          return property.key.name === "componentDidCatch";
+        }
+      });
 
       if (hasComponentDidCatch && allowComponentDidCatch) {
         return false;
@@ -70,15 +66,15 @@ const rule: Rule.RuleModule = {
       return true;
     }
 
-    const components = new Set<Node>();
+    const components = new Set<ClassNode>();
 
-    function detect(node: Node): void {
+    function detect(node: ClassNode): void {
       if (shouldPreferFunction(node)) {
         components.add(node);
       }
     }
 
-    function detectJsxInClass(node: Node): void {
+    function detectJsxInClass(node: ClassNode): void {
       if (!allowJsxUtilityClass) {
         detect(node);
       }
@@ -109,25 +105,20 @@ const rule: Rule.RuleModule = {
         detect,
       "ClassExpression[superClass.name='Component']": detect,
       "ClassExpression[superClass.name='PureComponent']": detect,
-      [PROGRAM_EXIT]() {
-        components.forEach((node) => {
-          // report on just the class identifier
-          if (node.id) {
-            // for ClassDeclaration
-            node = node.id;
-          } else if (node.parent.type == VARIABLE_DECLARATOR) {
-            //for ClassExpression
-            node = node.parent.id;
+      "Program:exit": function () {
+        components.forEach((component) => {
+          switch (component.type) {
+            case "ClassDeclaration":
+            case "ClassExpression":
+              return context.report({
+                node: component.id ?? (component as any),
+                messageId: COMPONENT_SHOULD_BE_FUNCTION,
+              });
           }
-
-          context.report({
-            node,
-            messageId: COMPONENT_SHOULD_BE_FUNCTION,
-          });
         });
       },
     };
   },
-};
+} satisfies Rule.RuleModule;
 
 export default rule;
