@@ -1,5 +1,13 @@
 # Changelog
 
+## v4.0.0
+
+- Add `react-` prefix to the flat configuration rule name. When using ESLint's flat configuration, the exported configuration from this package now "react-prefer-function-component". Previously it was "prefer-function-component". Practically speaking, no changes are expected from consumers of this package.
+
+Action would only be necessary if there is an existing plugin in your ESLint configuration using the "react-prefer-function-component" name, or if you're programmatically processing your ESLint configuration and expecting to find "prefer-function-component".
+
+See [#20](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/pull/20). Thanks @MariaSolOs!
+
 ## v3.4.0
 
 - Improved TypeScript type for the configuration object. See [#17](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/pull/17). Thanks @PrettyCoffee!
