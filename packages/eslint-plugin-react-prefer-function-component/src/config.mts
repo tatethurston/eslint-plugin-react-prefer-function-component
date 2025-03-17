@@ -14,7 +14,8 @@ const config = {
         "react-prefer-function-component": plugin,
       },
       rules: {
-        "react-prefer-function-component/prefer-function-component": "error",
+        "react-prefer-function-component/react-prefer-function-component":
+          "error",
       },
     },
   },
