@@ -16,9 +16,18 @@ jobs:
         with:
           path: packages/eslint-plugin-react-prefer-function-component
   ci:
-    name: Lint and Test
+    name: Lint
     runs-on: ubuntu-latest
     steps:
-      - uses: tatethurston/github-actions/test@main
+      - uses: tatethurston/github-actions/build@main
+      - run: pnpm lint
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: tatethurston/github-actions/build@main
+      - run: pnpm test:ci
+      - uses: codecov/codecov-action@v5
         with:
-          codecov_token: ${{ secrets.CODECOV_TOKEN }}
+          fail_ci_if_error: true
+          token: ${{ secrets.CODECOV_TOKEN }}
