@@ -45,6 +45,7 @@ jobs:
           expected="Class component should be written as a function  react-prefer-function-component/react-prefer-function-component"
           if [[ "$output" != *"$expected"* ]]; then
             echo "❌ Fail"
+            exit 1
           else
             echo "✅ Pass"
           fi
@@ -62,7 +63,7 @@ jobs:
           expected="Class component should be written as a function  react-prefer-function-component/react-prefer-function-component"
           if [[ "$output" != *"$expected"* ]]; then
             echo "❌ Fail"
-            # exit 1
+            exit 1
           else
             echo "✅ Pass"
           fi
