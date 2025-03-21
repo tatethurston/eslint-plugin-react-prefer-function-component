@@ -1,3 +1,4 @@
+/* c8 ignore start */
 import type { ESLint } from "eslint";
 import PreferFunctionComponent from "./prefer-function-component/index.js";
 

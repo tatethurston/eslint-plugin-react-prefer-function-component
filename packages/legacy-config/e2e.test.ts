@@ -1,4 +1,5 @@
 import { spawnSync } from "child_process";
+import { describe, beforeAll, it, expect } from "vitest";
 
 function run(cmd: string) {
   return spawnSync(cmd, { shell: true, encoding: "utf8" });
@@ -8,7 +9,7 @@ function removeAbsolutePathToEslintFile(str: string): string {
   return str.replace(__dirname, "");
 }
 
-describe("flat config", () => {
+describe("legacy config", () => {
   beforeAll(() => process.chdir(__dirname));
 
   it("flags errors", () => {

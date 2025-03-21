@@ -1,6 +1,5 @@
 {
   "name": "legacy-config",
-  "type": "module",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -12,6 +11,6 @@
   "license": "ISC",
   "devDependencies": {
     "eslint": "7.32.0",
-    "eslint-plugin-react-prefer-function-component": "^4.0.0"
+    "eslint-plugin-react-prefer-function-component": "workspace:^"
   }
 }
