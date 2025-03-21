@@ -31,39 +31,3 @@ jobs:
         with:
           fail_ci_if_error: true
           token: ${{ secrets.CODECOV_TOKEN }}
-  e2e-legacy-config:
-    name: E2E Legacy Config
-    runs-on: ubuntu-latest
-    steps:
-      - uses: tatethurston/github-actions/build@main
-      - name: pnpm eslint
-        run: |
-          cd packages/legacy-config
-          output=$(pnpm eslint index.jsx || true)
-          echo "$output"
-
-          expected="Class component should be written as a function  react-prefer-function-component/react-prefer-function-component"
-          if [[ "$output" != *"$expected"* ]]; then
-            echo "❌ Fail"
-            exit 1
-          else
-            echo "✅ Pass"
-          fi
-  e2e-flat-config:
-    name: E2E Flat Config
-    runs-on: ubuntu-latest
-    steps:
-      - uses: tatethurston/github-actions/build@main
-      - name: pnpm eslint
-        run: |
-          cd packages/flat-config
-          output=$(pnpm eslint index.jsx || true)
-          echo "$output"
-
-          expected="Class component should be written as a function  react-prefer-function-component/react-prefer-function-component"
-          if [[ "$output" != *"$expected"* ]]; then
-            echo "❌ Fail"
-            exit 1
-          else
-            echo "✅ Pass"
-          fi

@@ -79,10 +79,17 @@ export default [
 
 ### ESLint Legacy Configuration
 
-`.eslintrc` configuration:
+`.eslintrc.js` configuration:
 
 ```js
 module.exports = {
+  parserOptions: {
+    ecmaVersion: "latest",
+    sourceType: "module",
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
   extends: ["plugin:react-prefer-function-component/recommended"],
 };
 ```

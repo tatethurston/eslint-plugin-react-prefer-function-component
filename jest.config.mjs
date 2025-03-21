@@ -2,6 +2,7 @@
 export default {
   clearMocks: true,
   coverageDirectory: "coverage",
+  prettierPath: null,
   testEnvironment: "node",
   // TS ESM imports are referenced with .js extensions, but jest will fail to find
   // the uncompiled file because it ends with .ts and is looking for .js.
