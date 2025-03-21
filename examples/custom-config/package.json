@@ -1,7 +1,7 @@
 {
+  "name": "example-custom-config",
   "version": "1.0.0",
   "description": "",
-  "name": "test",
   "scripts": {
     "lint": "eslint *.jsx"
   },

@@ -2,7 +2,7 @@
   "version": "1.0.0",
   "type": "module",
   "description": "",
-  "name": "flat-config",
+  "name": "examples-flat-config",
   "scripts": {
     "lint": "eslint ."
   },
