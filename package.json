@@ -19,29 +19,26 @@
     "lint:fix:package": "prettier-package-json --write package.json",
     "package:copy:files": "cp README.md LICENSE CHANGELOG.md packages/eslint-plugin-react-prefer-function-component",
     "prepare": "husky install",
-    "test": "pnpm jest",
-    "test:ci": "pnpm jest --coverage",
+    "test": "pnpm vitest",
+    "test:ci": "pnpm vitest --coverage",
     "typecheck": "pnpm run --recursive typecheck"
   },
   "devDependencies": {
-    "@babel/preset-env": "^7.26.9",
-    "@babel/preset-react": "^7.26.3",
-    "@babel/preset-typescript": "^7.26.0",
     "@types/eslint": "^9.6.1",
     "@types/estree": "^1.0.6",
-    "@types/jest": "^29.5.14",
     "@types/node": "^22.13.10",
-    "@typescript-eslint/eslint-plugin": "^8.26.1",
-    "@typescript-eslint/parser": "^8.26.1",
+    "@typescript-eslint/eslint-plugin": "^8.27.0",
+    "@typescript-eslint/parser": "^8.27.0",
+    "@vitest/coverage-v8": "3.0.9",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-react": "^7.37.4",
     "eslint-plugin-react-hooks": "^5.2.0",
     "husky": "^9.1.7",
-    "jest": "^29.7.0",
     "prettier": "^3.5.3",
     "prettier-package-json": "^2.8.0",
-    "typescript": "^5.8.2"
+    "typescript": "^5.8.2",
+    "vitest": "^3.0.9"
   },
   "packageManager": "pnpm@8.6.9"
 }

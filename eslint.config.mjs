@@ -21,15 +21,17 @@ export default [
   },
   {
     files: ["*.ts"],
-    parser: "@typescript-eslint/parser",
-    parserOptions: {
-      // eslint-disable-next-line no-undef
-      tsconfigRootDir: process.cwd(),
-      project: [
-        "./tsconfig.json",
-        "./packages/*/tsconfig.json",
-        "./examples/*/tsconfig.json",
-      ],
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        // eslint-disable-next-line no-undef
+        tsconfigRootDir: process.cwd(),
+        project: [
+          "./tsconfig.json",
+          "./packages/*/tsconfig.json",
+          "./examples/*/tsconfig.json",
+        ],
+      },
     },
     rules: {
       ...typescriptPlugin.configs["recommended-requiring-type-checking"].rules,
