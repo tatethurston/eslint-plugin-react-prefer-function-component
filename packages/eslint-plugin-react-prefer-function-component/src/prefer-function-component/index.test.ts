@@ -1,6 +1,7 @@
 import { RuleTester } from "eslint";
 import rule, {
   ALLOW_COMPONENT_DID_CATCH,
+  ALLOW_GET_DERIVED_STATE_FROM_ERROR,
   ALLOW_JSX_UTILITY_CLASS,
   COMPONENT_SHOULD_BE_FUNCTION,
 } from ".";
@@ -215,6 +216,54 @@ const componentDidCatch = [
   `,
 ];
 
+const getDerivedStateFromError = [
+  // Extends from Component and uses static getDerivedStateFromError
+  `\
+    class Foo extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+      }
+      static getDerivedStateFromError(error) {
+        return { hasError: true };
+      }
+      render() {
+        return <div>{this.state.hasError ? "Error" : this.props.foo}</div>;
+      }
+    }
+  `,
+  // Extends from Component and uses static getDerivedStateFromError
+  `\
+    class Foo extends React.PureComponent {
+      constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+      }
+      static getDerivedStateFromError(error) {
+        return { hasError: true };
+      }
+      render() {
+        return <div>{this.state.hasError ? "Error" : this.props.foo}</div>;
+      }
+    }
+  `,
+  // Extends from Component in an expression context.
+  `\
+    const Foo = class extends React.Component {
+      constructor(props) {
+        super(props);
+        this.state = { hasError: false };
+      }
+      static getDerivedStateFromError(error) {
+        return { hasError: true };
+      }
+      render() {
+        return <div>{this.state.hasError ? "Error" : this.props.foo}</div>;
+      }
+    };
+  `,
+];
+
 const jsxUtilityClass = [
   `\
     class Foo {
@@ -231,17 +280,23 @@ ruleTester.run("prefer-function-component", rule, {
       { code },
       { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
       { code, options: [{ [ALLOW_COMPONENT_DID_CATCH]: false }] },
+      { code, options: [{ [ALLOW_GET_DERIVED_STATE_FROM_ERROR]: false }] },
       {
         code,
         options: [
           {
             [ALLOW_JSX_UTILITY_CLASS]: true,
             [ALLOW_COMPONENT_DID_CATCH]: false,
+            [ALLOW_GET_DERIVED_STATE_FROM_ERROR]: false,
           },
         ],
       },
     ]),
     ...componentDidCatch.flatMap((code) => [
+      { code },
+      { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
+    ]),
+    ...getDerivedStateFromError.flatMap((code) => [
       { code },
       { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
     ]),
@@ -279,6 +334,19 @@ ruleTester.run("prefer-function-component", rule, {
       options: [
         {
           [ALLOW_COMPONENT_DID_CATCH]: false,
+        },
+      ],
+      errors: [
+        {
+          messageId: COMPONENT_SHOULD_BE_FUNCTION,
+        },
+      ],
+    })),
+    ...getDerivedStateFromError.map((code) => ({
+      code,
+      options: [
+        {
+          [ALLOW_GET_DERIVED_STATE_FROM_ERROR]: false,
         },
       ],
       errors: [
