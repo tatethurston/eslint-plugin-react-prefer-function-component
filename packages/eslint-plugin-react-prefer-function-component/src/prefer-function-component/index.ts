@@ -5,16 +5,13 @@ import type { Rule } from "eslint";
 import type { TSESTree } from "@typescript-eslint/types";
 
 export const COMPONENT_SHOULD_BE_FUNCTION = "componentShouldBeFunction";
-export const ALLOW_COMPONENT_DID_CATCH = "allowComponentDidCatch";
-export const ALLOW_GET_DERIVED_STATE_FROM_ERROR =
-  "allowGetDerivedStateFromError";
+export const ALLOW_ERROR_BOUNDARY = "allowErrorBoundary";
 export const ALLOW_JSX_UTILITY_CLASS = "allowJsxUtilityClass";
 
 type ClassNode = TSESTree.ClassDeclaration | TSESTree.ClassExpression;
 
 type RuleOptions = {
-  allowComponentDidCatch?: boolean;
-  allowGetDerivedStateFromError?: boolean;
+  allowErrorBoundary?: boolean;
   allowJsxUtilityClass?: boolean;
 };
 
@@ -36,11 +33,7 @@ const rule = {
       {
         type: "object",
         properties: {
-          [ALLOW_COMPONENT_DID_CATCH]: {
-            default: true,
-            type: "boolean",
-          },
-          [ALLOW_GET_DERIVED_STATE_FROM_ERROR]: {
+          [ALLOW_ERROR_BOUNDARY]: {
             default: true,
             type: "boolean",
           },
@@ -56,33 +49,24 @@ const rule = {
 
   create(context: Rule.RuleContext) {
     const options: RuleOptions = context.options[0] ?? {};
-    const allowComponentDidCatch = options.allowComponentDidCatch ?? true;
-    const allowGetDerivedStateFromError =
-      options.allowGetDerivedStateFromError ?? true;
+    const allowErrorBoundary = options.allowErrorBoundary ?? true;
     const allowJsxUtilityClass = options.allowJsxUtilityClass ?? false;
 
     function shouldPreferFunction(node: ClassNode): boolean {
-      const properties = node.body.body;
-      const hasComponentDidCatch = properties.some((property) => {
+      const isErrorBoundary = node.body.body.some((property) => {
         if ("key" in property && "name" in property.key) {
-          return property.key.name === "componentDidCatch";
+          return (
+            property.key.name === "componentDidCatch" ||
+            (property.static &&
+              property.key.name === "getDerivedStateFromError")
+          );
         }
+        return false;
       });
 
-      if (hasComponentDidCatch && allowComponentDidCatch) {
+      if (isErrorBoundary && allowErrorBoundary) {
         return false;
       }
-
-      const hasGetDerivedStateFromError = properties.some((property) => {
-        if ("key" in property && "name" in property.key && property.static) {
-          return property.key.name === "getDerivedStateFromError";
-        }
-      });
-
-      if (hasGetDerivedStateFromError && allowGetDerivedStateFromError) {
-        return false;
-      }
-
       return true;
     }
 

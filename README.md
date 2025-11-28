@@ -34,7 +34,7 @@ using only functions.
 
 Leaving the choice between class or function components up to the community is great, but generally within a codebase I want consistency: either we're writing class components and HoCs or we're using function components and hooks. Straddling the two adds unnecessary hurdles for sharing reusable logic.
 
-By default, class components that use `componentDidCatch` or `static getDerivedStateFromError` are enabled because there is currently no hook alternative for React. This is configurable via `allowComponentDidCatch` and `allowGetDerivedStateFromError`.
+By default, class components that use `componentDidCatch` or `static getDerivedStateFromError` are allowed because there is currently no hook alternative for React. This is configurable via `allowErrorBoundary`.
 
 This rule is intended to complement the [eslint-plugin-react](https://github.com/yannickcr/eslint-plugin-react) rule set.
 
@@ -102,7 +102,7 @@ module.exports = {
   rules: {
     "react-prefer-function-component/react-prefer-function-component": [
       "error",
-      { allowComponentDidCatch: false },
+      { allowErrorBoundary: false },
     ],
   },
 };
@@ -142,63 +142,38 @@ const Foo = ({ foo }) => <div>{foo}</div>;
 
 ```js
 ...
-"react-prefer-function-component": [<enabled>, { "allowComponentDidCatch": <allowComponentDidCatch>, "allowJsxUtilityClass": <allowJsxUtilityClass> }]
+"react-prefer-function-component": [<enabled>, { "allowErrorBoundary": <allowErrorBoundary>, "allowJsxUtilityClass": <allowJsxUtilityClass> }]
 ...
 ```
 
 - `enabled`: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.
-- `allowComponentDidCatch`: optional boolean. set to `false` if you want to also flag class components that use `componentDidCatch` (defaults to `true`).
-- `allowGetDerivedStateFromError`: optional boolean. set to `false` if you want to also flag class components that use `static getDerivedStateFromError` (defaults to `true`).
+- `allowErrorBoundary`: optional boolean. set to `false` if you want to also flag class components that use `componentDidCatch` or `static getDerivedStateFromError` (defaults to `true`).
 - `allowJsxUtilityClass`: optional boolean. set to `true` if you want to allow classes that contain JSX but aren't class components (defaults to `false`).
 
-### `allowComponentDidCatch`
+### `allowErrorBoundary`
 
-When `true` (the default) the rule will ignore components that use `componentDidCatch`
-
-Examples of **correct** code for this rule:
-
-```jsx
-import { Component } from "react";
-
-class Foo extends Component {
-  componentDidCatch(error, errorInfo) {
-    logErrorToMyService(error, errorInfo);
-  }
-
-  render() {
-    return <div>{this.props.foo}</div>;
-  }
-}
-```
-
-When `false` the rule will also flag components that use `componentDidCatch`
-
-Examples of **incorrect** code for this rule:
-
-```jsx
-import { Component } from "react";
-
-class Foo extends Component {
-  componentDidCatch(error, errorInfo) {
-    logErrorToMyService(error, errorInfo);
-  }
-
-  render() {
-    return <div>{this.props.foo}</div>;
-  }
-}
-```
-
-### `allowGetDerivedStateFromError`
-
-When `true` (the default) the rule will ignore components that use `static getDerivedStateFromError`
+When `true` (the default) the rule will ignore error boundary components that use `componentDidCatch` or `static getDerivedStateFromError`
 
 Examples of **correct** code for this rule:
 
 ```jsx
 import { Component } from "react";
 
-class Foo extends Component {
+class ErrorBoundary extends Component {
+  componentDidCatch(error, errorInfo) {
+    logErrorToMyService(error, errorInfo);
+  }
+
+  render() {
+    return <div>{this.props.children}</div>;
+  }
+}
+```
+
+```jsx
+import { Component } from "react";
+
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
@@ -209,19 +184,33 @@ class Foo extends Component {
   }
 
   render() {
-    return <div>{this.state.hasError ? "Error" : this.props.foo}</div>;
+    return <div>{this.state.hasError ? "Error" : this.props.children}</div>;
   }
 }
 ```
 
-When `false` the rule will also flag components that use `static getDerivedStateFromError`
+When `false` the rule will also flag error boundary components
 
 Examples of **incorrect** code for this rule:
 
 ```jsx
 import { Component } from "react";
 
-class Foo extends Component {
+class ErrorBoundary extends Component {
+  componentDidCatch(error, errorInfo) {
+    logErrorToMyService(error, errorInfo);
+  }
+
+  render() {
+    return <div>{this.props.children}</div>;
+  }
+}
+```
+
+```jsx
+import { Component } from "react";
+
+class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
@@ -232,7 +221,7 @@ class Foo extends Component {
   }
 
   render() {
-    return <div>{this.state.hasError ? "Error" : this.props.foo}</div>;
+    return <div>{this.state.hasError ? "Error" : this.props.children}</div>;
   }
 }
 ```

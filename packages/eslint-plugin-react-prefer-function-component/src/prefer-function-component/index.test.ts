@@ -1,7 +1,6 @@
 import { RuleTester } from "eslint";
 import rule, {
-  ALLOW_COMPONENT_DID_CATCH,
-  ALLOW_GET_DERIVED_STATE_FROM_ERROR,
+  ALLOW_ERROR_BOUNDARY,
   ALLOW_JSX_UTILITY_CLASS,
   COMPONENT_SHOULD_BE_FUNCTION,
 } from ".";
@@ -180,7 +179,7 @@ const invalidForAllOptions = [
   `,
 ];
 
-const componentDidCatch = [
+const errorBoundaries = [
   // Extends from Component and uses componentDidCatch
   `\
     class Foo extends React.Component {
@@ -214,9 +213,6 @@ const componentDidCatch = [
       }
     };
   `,
-];
-
-const getDerivedStateFromError = [
   // Extends from Component and uses static getDerivedStateFromError
   `\
     class Foo extends React.Component {
@@ -279,24 +275,18 @@ ruleTester.run("prefer-function-component", rule, {
     ...validForAllOptions.flatMap((code) => [
       { code },
       { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
-      { code, options: [{ [ALLOW_COMPONENT_DID_CATCH]: false }] },
-      { code, options: [{ [ALLOW_GET_DERIVED_STATE_FROM_ERROR]: false }] },
+      { code, options: [{ [ALLOW_ERROR_BOUNDARY]: false }] },
       {
         code,
         options: [
           {
             [ALLOW_JSX_UTILITY_CLASS]: true,
-            [ALLOW_COMPONENT_DID_CATCH]: false,
-            [ALLOW_GET_DERIVED_STATE_FROM_ERROR]: false,
+            [ALLOW_ERROR_BOUNDARY]: false,
           },
         ],
       },
     ]),
-    ...componentDidCatch.flatMap((code) => [
-      { code },
-      { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
-    ]),
-    ...getDerivedStateFromError.flatMap((code) => [
+    ...errorBoundaries.flatMap((code) => [
       { code },
       { code, options: [{ [ALLOW_JSX_UTILITY_CLASS]: true }] },
     ]),
@@ -316,7 +306,7 @@ ruleTester.run("prefer-function-component", rule, {
       {
         code,
         errors: [{ messageId: COMPONENT_SHOULD_BE_FUNCTION }],
-        options: [{ [ALLOW_COMPONENT_DID_CATCH]: false }],
+        options: [{ [ALLOW_ERROR_BOUNDARY]: false }],
       },
       {
         code,
@@ -324,29 +314,16 @@ ruleTester.run("prefer-function-component", rule, {
         options: [
           {
             [ALLOW_JSX_UTILITY_CLASS]: true,
-            [ALLOW_COMPONENT_DID_CATCH]: false,
+            [ALLOW_ERROR_BOUNDARY]: false,
           },
         ],
       },
     ]),
-    ...componentDidCatch.map((code) => ({
+    ...errorBoundaries.map((code) => ({
       code,
       options: [
         {
-          [ALLOW_COMPONENT_DID_CATCH]: false,
-        },
-      ],
-      errors: [
-        {
-          messageId: COMPONENT_SHOULD_BE_FUNCTION,
-        },
-      ],
-    })),
-    ...getDerivedStateFromError.map((code) => ({
-      code,
-      options: [
-        {
-          [ALLOW_GET_DERIVED_STATE_FROM_ERROR]: false,
+          [ALLOW_ERROR_BOUNDARY]: false,
         },
       ],
       errors: [
@@ -360,7 +337,7 @@ ruleTester.run("prefer-function-component", rule, {
       {
         code,
         errors: [{ messageId: COMPONENT_SHOULD_BE_FUNCTION }],
-        options: [{ [ALLOW_COMPONENT_DID_CATCH]: false }],
+        options: [{ [ALLOW_ERROR_BOUNDARY]: false }],
       },
     ]),
   ],
