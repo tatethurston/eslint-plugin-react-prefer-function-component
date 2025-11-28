@@ -1,6 +1,6 @@
 {
   "name": "eslint-plugin-react-prefer-function-component",
-  "version": "4.0.1",
+  "version": "5.0.0",
   "description": "ESLint plugin that prevents the use of JSX class components",
   "license": "MIT",
   "author": "Tate <tatethurston@gmail.com>",
@@ -30,7 +30,7 @@
     "lint jsx class"
   ],
   "devDependencies": {
-    "eslint": "^9.22.0"
+    "eslint": "9.37.0"
   },
   "exports": {
     "./package.json": "./package.json",

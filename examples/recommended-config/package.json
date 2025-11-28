@@ -9,8 +9,8 @@
   "license": "ISC",
   "main": "index.js",
   "devDependencies": {
-    "eslint": "^9.22.0",
-    "eslint-plugin-react": "^7.37.4",
+    "eslint": "9.37.0",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-react-prefer-function-component": "workspace:*"
   }
 }
