@@ -1,5 +1,21 @@
 # Changelog
 
+## v5.0.0
+
+- `allowComponentDidCatch` has been replaced with `allowErrorBoundary`. Like `allowComponentDidCatch`, `allowErrorBoundary` defaults to true, but `allowErrorBoundary` allows class components that use `componentDidCatch` and/or `getDerivedStateFromError`. No change is required if you're using the defaults for this lint rule. If you've disabled `allowComponentDidCatch`, you'll need to make the following change:
+
+```diff
+  rules: {
+    "react-prefer-function-component/react-prefer-function-component": [
+      "error",
+-     { allowComponentDidCatch: false },
++     { allowErrorBoundary: false },
+    ],
+  },
+```
+
+See [#29](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/pull/29), thanks @henryqdineen!
+
 ## v4.0.1
 
 - Fix flat config issue. See [#23](https://github.com/tatethurston/eslint-plugin-react-prefer-function-component/pull/23). Thanks @MariaSolOs!
